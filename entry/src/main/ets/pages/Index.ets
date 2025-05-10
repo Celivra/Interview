@@ -1,23 +1,25 @@
+import { fullScreen } from '../utils/FullScreen';
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World';
+  @StorageProp('topHeight') topHeight:number = 0;
+  @StorageProp('bottomHeight') bottomHeight:number = 0;
 
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('HelloWorld')
-        .fontSize($r('app.float.page_text_font_size'))
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
-        .onClick(() => {
-          this.message = 'Welcome';
-        })
+    Column({space:20}){
+      Text("Top")
+      Button("开启沉浸式").onClick((event: ClickEvent) => {
+        fullScreen.enable();
+      })
+      Button("关闭沉浸式").onClick((event: ClickEvent) => {
+        fullScreen.disable();
+      })
+      Blank()
+      Text("bottom")
     }
-    .height('100%')
+    .padding({top:this.topHeight, bottom:this.bottomHeight})
     .width('100%')
-  }//test
+    .height('100%')
+    .backgroundColor(Color.Orange)
+  }
 }
