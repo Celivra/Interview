@@ -1,33 +1,63 @@
-import { fullScreen } from '../utils/FullScreen';
-import { statusBar } from '../utils/StatusBar';
+interface TabItem{
+  icon:Resource,
+  activeIcon:Resource,
+  name:string
+}
+
 
 @Entry
 @Component
 struct Index {
-  @StorageProp('topHeight') topHeight:number = 0;
-  @StorageProp('bottomHeight') bottomHeight:number = 0;
-
+  @StorageProp('bottomHeight') bottomHeight:number = 0
+  tabList:TabItem[] = [
+    {
+      icon:$r('app.media.tabbar_home'),
+      activeIcon:$r('app.media.tabbar_home_fill'),
+      name:'首页'
+    },
+    {
+      icon:$r('app.media.tabbar_project'),
+      activeIcon:$r('app.media.tabbar_project_fill'),
+      name:'项目'
+    },
+    {
+      icon:$r('app.media.tabbar_interview'),
+      activeIcon:$r('app.media.tabbar_interview_fill'),
+      name:'面经'
+    },
+    {
+      icon:$r('app.media.tabbar_mine'),
+      activeIcon:$r('app.media.tabbar_mine_fill'),
+      name:'我的'
+    },
+  ]
+  @Builder
+  TabBuilder(item:TabItem){
+    Column(){
+      Image(item.icon)
+        .width(24)
+        .aspectRatio(1)
+      Text(item.name)
+        .fontSize(12)
+        .fontColor($r('app.color.common_gray_02'))
+    }
+  }
   build() {
     Column({space:20}){
-      Text("Top")
-      Button("开启沉浸式").onClick((event: ClickEvent) => {
-        fullScreen.enable();
-      })
-      Button("关闭沉浸式").onClick((event: ClickEvent) => {
-        fullScreen.disable();
-      })
-      Button("白色状态栏").onClick((event: ClickEvent) => {
-        statusBar.setLightBar();
-      })
-      Button("黑色状态栏").onClick((event: ClickEvent) => {
-        statusBar.setDarkBar();
-      })
-      Blank()
-      Text("bottom")
+      Tabs({barPosition:BarPosition.End}){
+        ForEach(this.tabList, (item:TabItem)=>{
+
+          TabContent(){
+
+          }
+          .tabBar(this.TabBuilder(item))
+
+        })
+      }
+      .padding({bottom:this.bottomHeight})
     }
-    .padding({top:this.topHeight, bottom:this.bottomHeight})
     .width('100%')
     .height('100%')
-    .backgroundColor(Color.Orange)
+    .backgroundColor(Color.White)
   }
 }

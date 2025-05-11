@@ -2,6 +2,7 @@ import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.Ab
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import { logger } from '../utils/Logger';
+import { fullScreen } from '../utils/FullScreen';
 
 
 const DOMAIN = 0x0000;
@@ -21,7 +22,7 @@ export default class EntryAbility extends UIAbility {
   onWindowStageCreate(windowStage: window.WindowStage): void {
     // Main window is created, set main page for this ability
     logger.info('Ability onWindowStageCreate')
-
+    fullScreen.enable();
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
         logger.error('Failed to load the content. Cause: %{public}s', JSON.stringify(err));
