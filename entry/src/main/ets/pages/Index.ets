@@ -1,4 +1,6 @@
 import { fullScreen } from '../utils/FullScreen';
+import { statusBar } from '../utils/StatusBar';
+
 @Entry
 @Component
 struct Index {
@@ -13,6 +15,12 @@ struct Index {
       })
       Button("关闭沉浸式").onClick((event: ClickEvent) => {
         fullScreen.disable();
+      })
+      Button("白色状态栏").onClick((event: ClickEvent) => {
+        statusBar.setLightBar();
+      })
+      Button("黑色状态栏").onClick((event: ClickEvent) => {
+        statusBar.setDarkBar();
       })
       Blank()
       Text("bottom")
