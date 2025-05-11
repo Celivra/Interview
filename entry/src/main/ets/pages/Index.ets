@@ -1,3 +1,8 @@
+import { HomePage } from './HomePage'
+import { InterviewPage } from './InterviewPage'
+import { MyPage } from './MyPage'
+import { ProjectPage } from './ProjectPage'
+
 interface TabItem{
   icon:Resource,
   activeIcon:Resource,
@@ -49,7 +54,15 @@ struct Index {
         ForEach(this.tabList, (item:TabItem, i)=>{
 
           TabContent(){
-
+            if(i === 0){
+              HomePage();
+            }else if(i === 1){
+              ProjectPage();
+            }else if(i === 2){
+              InterviewPage();
+            }else{
+              MyPage();
+            }
           }
           .tabBar(this.TabBuilder(item, i))
 
@@ -58,6 +71,7 @@ struct Index {
       .onTabBarClick((i=>{
         this.activeIndex = i;
       }))
+      .divider({strokeWidth:1, color:$r('app.color.common_gray_border')})
       .padding({bottom:this.bottomHeight})
     }
     .width('100%')
