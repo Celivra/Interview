@@ -31,29 +31,33 @@ struct Index {
       name:'我的'
     },
   ]
+  @State activeIndex:number=2
   @Builder
-  TabBuilder(item:TabItem){
+  TabBuilder(item:TabItem, i:number){
     Column(){
-      Image(item.icon)
+      Image(this.activeIndex === i? item.activeIcon:item.icon)
         .width(24)
         .aspectRatio(1)
       Text(item.name)
         .fontSize(12)
-        .fontColor($r('app.color.common_gray_02'))
+        .fontColor(this.activeIndex === i?$r('app.color.black'):$r('app.color.common_gray_02'))
     }
   }
   build() {
     Column({space:20}){
-      Tabs({barPosition:BarPosition.End}){
-        ForEach(this.tabList, (item:TabItem)=>{
+      Tabs({barPosition:BarPosition.End, index:this.activeIndex}){
+        ForEach(this.tabList, (item:TabItem, i)=>{
 
           TabContent(){
 
           }
-          .tabBar(this.TabBuilder(item))
+          .tabBar(this.TabBuilder(item, i))
 
         })
       }
+      .onTabBarClick((i=>{
+        this.activeIndex = i;
+      }))
       .padding({bottom:this.bottomHeight})
     }
     .width('100%')
