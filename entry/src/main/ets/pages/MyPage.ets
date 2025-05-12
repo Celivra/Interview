@@ -1,10 +1,13 @@
+import { faceDetector } from "@kit.CoreVisionKit"
+import { router } from "@kit.ArkUI"
+
 interface NavItem{
   icon:Resource,
   text:string
 }
 @Component
 export struct MyPage{
-  isLogin:boolean = true
+  isLogin:boolean = false
   @Builder
   ToolsBuilder(item:NavItem){
     Row({space:4}){
@@ -68,6 +71,9 @@ export struct MyPage{
               .fontColor(Color.Black)
               .fontWeight(FontWeight.Bold)
               .maxLines(1)
+              .onClick(()=>{
+                router.pushUrl({url:'pages/LoginPage'})
+              })
           }
         }
       }
