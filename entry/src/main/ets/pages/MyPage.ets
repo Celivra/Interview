@@ -6,6 +6,24 @@ interface NavItem{
 export struct MyPage{
   isLogin:boolean = true
   @Builder
+  ToolsBuilder(item:NavItem){
+    Row({space:4}){
+      Image(item.icon)
+        .width(16)
+        .aspectRatio(1)
+      Text(item.text)
+        .fontSize(14)
+        .fontColor(Color.Black)
+      Blank()
+      Image($r('sys.media.ohos_ic_public_arrow_right'))
+        .width(24)
+        .aspectRatio(1)
+        .fillColor($r('app.color.common_gray_01'))
+    }
+    .width('100%')
+
+  }
+  @Builder
   NavBuilder(item:NavItem){
     Column({space:4}){
       Image(item.icon)
@@ -45,7 +63,7 @@ export struct MyPage{
           .alignItems(HorizontalAlign.Start)
         }else {
           Column(){
-            Text('立即登入')
+            Text('立即登录')
               .fontSize(18)
               .fontColor(Color.Black)
               .fontWeight(FontWeight.Bold)
@@ -68,10 +86,30 @@ export struct MyPage{
       .backgroundColor(Color.White)
       .width('100%')
       //tools
+      Column({space:25}){
+        this.ToolsBuilder({icon:$r('app.media.ic_mine_notes'),  text:'开发常用词语'})
+        this.ToolsBuilder({icon:$r('app.media.ic_mine_file'),   text:'意见反馈'})
+        this.ToolsBuilder({icon:$r('app.media.ic_mine_info'),   text:'关于我们'})
+        this.ToolsBuilder({icon:$r('app.media.ic_mine_setting'),text:'设置'})
+      }
+      .padding(15)
+      .margin({top:15})
+      .borderRadius(8)
+      .backgroundColor(Color.White)
+      .width('100%')
+
+      //logout
+      Text('退出登录')
+        .fontColor($r('app.color.common_main_color'))
+        .margin({top:15})
     }
     .width('100%')
     .height('100%')
     .padding(15)
-    .backgroundColor($r('app.color.home_gray'))
+    .linearGradient({colors:[
+      ['#ffb071', 0],
+      [$r('app.color.common_gray_bg'), 0.3],
+      [$r('app.color.common_gray_bg'), 1]
+    ]})
   }
 }
