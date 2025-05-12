@@ -1,6 +1,21 @@
+interface NavItem{
+  icon:Resource,
+  text:string
+}
 @Component
 export struct MyPage{
   isLogin:boolean = true
+  @Builder
+  NavBuilder(item:NavItem){
+    Column({space:4}){
+      Image(item.icon)
+        .width(30)
+        .aspectRatio(1)
+      Text(item.text)
+        .fontSize(14)
+        .fontColor($r('app.color.common_gray_03'))
+    }
+  }
   build() {
     Column(){
       //head
@@ -41,10 +56,22 @@ export struct MyPage{
       .height(160)
       .width('100%')
       //nav
+      Row(){
+        this.NavBuilder({icon:$r('app.media.ic_mine_history'), text:'历史记录'})
+        this.NavBuilder({icon:$r('app.media.ic_mine_collect'), text:'我的收藏'})
+        this.NavBuilder({icon:$r('app.media.ic_mine_like'),    text:'我的点赞'})
+        this.NavBuilder({icon:$r('app.media.ic_mine_study'),   text:'累计学时'})
+      }
+      .justifyContent(FlexAlign.SpaceBetween)
+      .padding(15)
+      .borderRadius(8)
+      .backgroundColor(Color.White)
+      .width('100%')
       //tools
     }
     .width('100%')
     .height('100%')
     .padding(15)
+    .backgroundColor($r('app.color.home_gray'))
   }
 }
