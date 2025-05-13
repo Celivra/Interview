@@ -50,7 +50,7 @@ export struct MyPage{
           .width(55)
           .aspectRatio(1)
           .borderRadius(55)
-        // 是否登录
+        // isLogin?
         if (this.user.token) {
           Column({ space: 4 }) {
             Text(this.user.nickName || this.user.username)
