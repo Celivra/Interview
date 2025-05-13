@@ -2,6 +2,7 @@ import { promptAction, router } from '@kit.ArkUI'
 import { http } from '@kit.NetworkKit'
 import { NavComp } from '../component/NavComp'
 import { Res, User } from '../models/Index'
+import { auth } from '../utils/Auth'
 
 @Entry
 @Component
@@ -43,11 +44,12 @@ struct LoginPage {
       })
       const result = res.result as Res<User>
       if (result.code === 10000) {
-        // 3.1 成功，存储信息
-        AppStorage.setOrCreate<User>('user', result.data)
+        // success, save information
+        const result = res.result as Res<User>
+        auth.setUser(result.data)
         router.back()
       } else {
-        // 3.2 失败，提示原因
+        // fail, prompt error information
         promptAction.showToast({ message: result.message })
       }
       this.loading = false

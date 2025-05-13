@@ -1,3 +1,4 @@
+import { auth } from '../utils/Auth'
 import { HomePage } from './HomePage'
 import { InterviewPage } from './InterviewPage'
 import { MyPage } from './MyPage'
@@ -8,7 +9,7 @@ interface TabItem{
   activeIcon:Resource,
   name:string
 }
-
+auth.initUser()
 
 @Entry
 @Component

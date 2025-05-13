@@ -1,5 +1,7 @@
 import { faceDetector } from "@kit.CoreVisionKit"
 import { router } from "@kit.ArkUI"
+import { UserStoreKey } from "../utils/Auth"
+import { User } from "../models/Index"
 
 interface NavItem{
   icon:Resource,
@@ -8,6 +10,7 @@ interface NavItem{
 @Component
 export struct MyPage{
   isLogin:boolean = false
+  @StorageProp(UserStoreKey) user: User= {} as User
   @Builder
   ToolsBuilder(item:NavItem){
     Row({space:4}){
@@ -42,39 +45,39 @@ export struct MyPage{
       //head
       Row({space:15}){
 
-        Image($r('app.media.ic_mine_avatar'))
+        Image(this.user.avatar || $r('app.media.ic_mine_avatar'))
           .alt($r('app.media.ic_mine_avatar'))
           .width(55)
           .aspectRatio(1)
-          .borderRadius(30)
-        if (this.isLogin){
-          Column(){
-            Text('黑马程序员')
+          .borderRadius(55)
+        // 是否登录
+        if (this.user.token) {
+          Column({ space: 4 }) {
+            Text(this.user.nickName || this.user.username)
               .fontSize(18)
-              .fontColor(Color.Black)
-              .fontWeight(FontWeight.Bold)
+              .fontWeight(500)
               .maxLines(1)
-            Row(){
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
+            Row({ space: 4 }) {
               Text('编辑信息')
                 .fontSize(12)
                 .fontColor($r('app.color.common_gray_01'))
               Image($r('app.media.ic_mine_edit'))
                 .width(12)
-                .fillColor($r('app.color.common_gray_02'))
+                .aspectRatio(1)
+                .fillColor($r('app.color.common_gray_01'))
             }
           }
+          .layoutWeight(1)
           .alignItems(HorizontalAlign.Start)
-        }else {
-          Column(){
-            Text('立即登录')
-              .fontSize(18)
-              .fontColor(Color.Black)
-              .fontWeight(FontWeight.Bold)
-              .maxLines(1)
-              .onClick(()=>{
-                router.pushUrl({url:'pages/LoginPage'})
-              })
-          }
+        } else {
+          Text('立即登录')
+            .fontSize(18)
+            .fontWeight(500)
+            .layoutWeight(1)
+            .onClick(() => {
+              router.pushUrl({ url: 'pages/LoginPage' })
+            })
         }
       }
       .height(160)
