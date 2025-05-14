@@ -15,3 +15,17 @@ export interface User {
   // 打卡次数
   clockinNumbers?: number
 }
+
+export interface InterviewItem {
+  id: string
+  stem: string
+  content: string
+  likeCount: number
+  views: number
+  creatorName: string
+  creatorAvatar: ResourceStr
+  createdAt: string
+  stage: string[]
+  likeFlag: 0 | 1
+  collectFlag: 0 | 1
+}

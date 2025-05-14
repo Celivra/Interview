@@ -1,3 +1,5 @@
+import { InterviewListComp } from "../views/InterView/InterViewListComp"
+
 interface CompanyItem {
   icon: ResourceStr
   count: number
@@ -89,6 +91,7 @@ export struct InterviewPage {
     Column() {
       this.HeaderBuilder()
       this.CompanyBuilder()
+      InterviewListComp()
     }
     .width('100%')
     .height('100%')
