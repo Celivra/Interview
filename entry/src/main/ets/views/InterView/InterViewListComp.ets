@@ -3,6 +3,9 @@ import { InterviewItemComp } from './InterViewListItemComp'
 
 @Component
 export struct InterviewListComp {
+  @State isRefreshing: boolean = false
+  @State isLoading: boolean = false
+  @State isFinished: boolean = true
   @State list: InterviewItem[] = [
     {
       id: '10001',
@@ -44,7 +47,6 @@ export struct InterviewListComp {
       collectFlag:0
     }
   ]
-  @State isRefreshing: boolean = false
   build() {
     Column(){
       Row({ space: 15 }){
@@ -64,6 +66,25 @@ export struct InterviewListComp {
               InterviewItemComp({ item })
             }
           })
+          ListItem(){
+            if (this.isFinished) {
+              Text('没有更多了~')
+                .fontSize(15)
+                .fontColor($r('app.color.common_gray_01'))
+            }else if (this.isLoading) {
+              Row({ space: 4 }){
+                LoadingProgress()
+                  .width(24)
+                  .aspectRatio(1)
+                  .color($r('app.color.common_gray_02'))
+                Text('正在加载...')
+                  .fontSize(15)
+                  .fontColor($r('app.color.common_gray_01'))
+              }
+            }
+          }
+          .height(80)
+          .width('100%')
         }
         .width('100%')
         .height('100%')
