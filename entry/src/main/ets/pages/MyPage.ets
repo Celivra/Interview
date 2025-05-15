@@ -1,6 +1,6 @@
 import { faceDetector } from "@kit.CoreVisionKit"
 import { router } from "@kit.ArkUI"
-import { UserStoreKey } from "../utils/Auth"
+import { auth, UserStoreKey } from "../utils/Auth"
 import { User } from "../models/Index"
 
 interface NavItem{
@@ -111,6 +111,9 @@ export struct MyPage{
       Text('退出登录')
         .fontColor($r('app.color.common_main_color'))
         .margin({top:15})
+        .onClick(()=>{
+          auth.setUser({} as User)
+        })
     }
     .width('100%')
     .height('100%')

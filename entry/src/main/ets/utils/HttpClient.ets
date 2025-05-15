@@ -1,8 +1,7 @@
 import { http } from '@kit.NetworkKit';
-import { Queue } from '@kit.ArkTS';
 import { Res } from '../models';
 
-class HttpClient{
+export class HttpClient{
   request<T>(url:string, method:http.RequestMethod, data:Object){
     const httpInstance = http.createHttp()
     const options:http.HttpRequestOptions = {
@@ -37,3 +36,4 @@ class HttpClient{
       })
   }
 }
+export const httpClient = new HttpClient()

@@ -3,6 +3,7 @@ import { http } from '@kit.NetworkKit'
 import { NavComp } from '../component/NavComp'
 import { Res, User } from '../models/Index'
 import { auth } from '../utils/Auth'
+import { httpClient, HttpClient } from '../utils/HttpClient'
 
 @Entry
 @Component
@@ -28,34 +29,47 @@ struct LoginPage {
       return promptAction.showToast({ message: '请输入密码' })
     }
 
-    try {
-      this.loading = true
-      const req = http.createHttp()
-      const res = await req.request('https://api-harmony-teach.itheima.net/hm/login', {
-        method: http.RequestMethod.POST,
-        header: {
-          'Content-Type': 'application/json'
-        },
-        extraData: {
-          username: this.username,
-          password: this.password
-        },
-        expectDataType: http.HttpDataType.OBJECT
-      })
-      const result = res.result as Res<User>
-      if (result.code === 10000) {
-        // success, save information
-        const result = res.result as Res<User>
-        auth.setUser(result.data)
-        router.back()
-      } else {
-        // fail, prompt error information
-        promptAction.showToast({ message: result.message })
-      }
+    this.loading = true
+    // try {
+    //   this.loading = true
+    //   const req = http.createHttp()
+    //   const res = await req.request('https://api-harmony-teach.itheima.net/hm/login', {
+    //     method: http.RequestMethod.POST,
+    //     header: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     extraData: {
+    //       username: this.username,
+    //       password: this.password
+    //     },
+    //     expectDataType: http.HttpDataType.OBJECT
+    //   })
+    //   const result = res.result as Res<User>
+    //   if (result.code === 10000) {
+    //     // success, save information
+    //     const result = res.result as Res<User>
+    //     auth.setUser(result.data)
+    //     router.back()
+    //   } else {
+    //     // fail, prompt error information
+    //     promptAction.showToast({ message: result.message })
+    //   }
+    //   this.loading = false
+    // } catch (e) {
+    //   this.loading = false
+    //   promptAction.showToast({ message: '登录失败' })
+    // }
+    try{
+      const data = await httpClient.request<User>('login', http.RequestMethod.POST, new Object({
+        username:this.username,
+        password:this.password
+      }))
+      auth.setUser(data)
+      router.back()
       this.loading = false
-    } catch (e) {
+    }catch (e){
       this.loading = false
-      promptAction.showToast({ message: '登录失败' })
+      promptAction.showToast({message:'登入失败'})
     }
   }
 
