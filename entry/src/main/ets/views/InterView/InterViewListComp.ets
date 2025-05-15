@@ -2,6 +2,7 @@ import { InterviewItem, InterviewListParams, PageData } from '../../models/Index
 import { InterviewItemComp } from './InterViewListItemComp'
 import { http } from '@kit.NetworkKit'
 import { Res } from '../../models'
+import { promptAction } from '@kit.ArkUI'
 
 @Component
 export struct InterviewListComp {
@@ -19,9 +20,17 @@ export struct InterviewListComp {
     Column(){
       Row({ space: 15 }){
         Text('推荐')
-          .fontColor($r('app.color.black') )
+          .fontColor(this.params.sort === 30 ? $r('app.color.black') : $r('app.color.common_gray_01') )
+          .onClick(() => {
+            this.params.sort = 30
+            this.refreshData()
+          })
         Text('最新')
-          .fontColor($r('app.color.common_gray_01'))
+          .fontColor(this.params.sort === 0 ? $r('app.color.black') : $r('app.color.common_gray_01') )
+          .onClick(() => {
+            this.params.sort = 0
+            this.refreshData()
+          })
       }
       .padding(15)
       .height(48)
@@ -69,15 +78,36 @@ export struct InterviewListComp {
         .edgeEffect(EdgeEffect.None)
       }
       .onRefreshing(() => {
-        setTimeout(() => {
-          this.isRefreshing = false
-        }, 2000)
+        this.refreshData()
       })
       .layoutWeight(1)
     }
     .width('100%')
     .layoutWeight(1)
   }
+
+  async refreshData() {
+    this.params.page = 1
+    const req = http.createHttp()
+    const paramKeys: string[] = Object.keys(this.params)
+    const paramValues: (number | string | boolean)[] = Object.values(this.params)
+    const paramsStr = paramKeys.map((key,i) => `${key}=${paramValues[i]}`).join('&')
+    const url = `https://api-harmony-teach.itheima.net/hm/question/list?${paramsStr}`
+    const res = await req.request(url, {
+      expectDataType: http.HttpDataType.OBJECT
+    })
+    const result = res.result as Res<PageData<InterviewItem>>
+    this.list = result.data.rows
+    this.isRefreshing = false
+    if (this.params.page >= result.data.pageTotal) {
+      this.isFinished = true
+    } else {
+      this.isFinished = false
+      this.isLoading = false
+    }
+    promptAction.showToast({ message: '更新成功' })
+  }
+
   async LoadData () {
     this.isLoading = true
     const req = http.createHttp()
