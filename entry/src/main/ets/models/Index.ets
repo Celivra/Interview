@@ -29,3 +29,14 @@ export interface InterviewItem {
   likeFlag: 0 | 1
   collectFlag: 0 | 1
 }
+export interface InterviewListParams {
+  questionBankType: 9 | 10
+  page: number
+  sort: 30 | 0
+  keyword: string
+}
+export interface PageData<T> {
+  total: number,
+  pageTotal: number
+  rows: T[]
+}
