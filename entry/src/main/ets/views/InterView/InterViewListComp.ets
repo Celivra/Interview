@@ -1,8 +1,7 @@
 import { InterviewItem, InterviewListParams, PageData } from '../../models/Index'
 import { InterviewItemComp } from './InterViewListItemComp'
 import { http } from '@kit.NetworkKit'
-import { Res } from '../../models'
-import { promptAction } from '@kit.ArkUI'
+import { promptAction, router } from '@kit.ArkUI'
 import { httpClient } from '../../utils/HttpClient'
 
 @Component
@@ -43,6 +42,9 @@ export struct InterviewListComp {
             ListItem() {
               InterviewItemComp({ item })
             }
+            .onClick(()=>{
+              router.pushUrl({url:"pages/InterViewDetailPage"})
+            })
           })
           ListItem(){
             if (this.isFinished) {
