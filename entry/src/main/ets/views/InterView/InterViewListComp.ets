@@ -3,6 +3,7 @@ import { InterviewItemComp } from './InterViewListItemComp'
 import { http } from '@kit.NetworkKit'
 import { Res } from '../../models'
 import { promptAction } from '@kit.ArkUI'
+import { httpClient } from '../../utils/HttpClient'
 
 @Component
 export struct InterviewListComp {
@@ -88,18 +89,21 @@ export struct InterviewListComp {
 
   async refreshData() {
     this.params.page = 1
-    const req = http.createHttp()
-    const paramKeys: string[] = Object.keys(this.params)
-    const paramValues: (number | string | boolean)[] = Object.values(this.params)
-    const paramsStr = paramKeys.map((key,i) => `${key}=${paramValues[i]}`).join('&')
-    const url = `https://api-harmony-teach.itheima.net/hm/question/list?${paramsStr}`
-    const res = await req.request(url, {
-      expectDataType: http.HttpDataType.OBJECT
-    })
-    const result = res.result as Res<PageData<InterviewItem>>
-    this.list = result.data.rows
+    this.isRefreshing = true
+    // const req = http.createHttp()
+    // const paramKeys: string[] = Object.keys(this.params)
+    // const paramValues: (number | string | boolean)[] = Object.values(this.params)
+    // const paramsStr = paramKeys.map((key,i) => `${key}=${paramValues[i]}`).join('&')
+    // const url = `https://api-harmony-teach.itheima.net/hm/question/list?${paramsStr}`
+    // const res = await req.request(url, {
+    //   expectDataType: http.HttpDataType.OBJECT
+    // })
+    // const result = res.result as Res<PageData<InterviewItem>>
+    const data = await httpClient.request<PageData<InterviewItem>>('question/list', http.RequestMethod.GET, this.params)
+    this.list = data.rows
     this.isRefreshing = false
-    if (this.params.page >= result.data.pageTotal) {
+
+    if (this.params.page >= data.pageTotal) {
       this.isFinished = true
     } else {
       this.isFinished = false
@@ -110,18 +114,20 @@ export struct InterviewListComp {
 
   async LoadData () {
     this.isLoading = true
-    const req = http.createHttp()
-    const paramKeys: string[] = Object.keys(this.params)
-    const paramValues: (number | string | boolean)[] = Object.values(this.params)
-    const paramsStr = paramKeys.map((key,i) => `${key}=${paramValues[i]}`).join('&')
-    const url = `https://api-harmony-teach.itheima.net/hm/question/list?${paramsStr}`
-    const res = await req.request(url, {
-      expectDataType: http.HttpDataType.OBJECT
-    })
-    const result = res.result as Res<PageData<InterviewItem>>
-    this.list.push(...result.data.rows)
+    // const req = http.createHttp()
+    // const paramKeys: string[] = Object.keys(this.params)
+    // const paramValues: (number | string | boolean)[] = Object.values(this.params)
+    // const paramsStr = paramKeys.map((key,i) => `${key}=${paramValues[i]}`).join('&')
+    // const url = `https://api-harmony-teach.itheima.net/hm/question/list?${paramsStr}`
+    // const res = await req.request(url, {
+    //   expectDataType: http.HttpDataType.OBJECT
+    // })
+    // const result = res.result as Res<PageData<InterviewItem>>
+
+    const data = await httpClient.request<PageData<InterviewItem>>('question/list', http.RequestMethod.GET, this.params)
+    this.list.push(...data.rows)
     this.isLoading = false
-    if (this.params.page >= result.data.pageTotal) {
+    if (this.params.page >= data.pageTotal) {
       this.isFinished = true
     } else {
       this.params.page ++
