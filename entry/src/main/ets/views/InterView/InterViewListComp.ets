@@ -3,6 +3,7 @@ import { InterviewItemComp } from './InterViewListItemComp'
 import { http } from '@kit.NetworkKit'
 import { promptAction, router } from '@kit.ArkUI'
 import { httpClient } from '../../utils/HttpClient'
+import { auth } from '../../utils/Auth'
 
 @Component
 export struct InterviewListComp {
@@ -43,7 +44,7 @@ export struct InterviewListComp {
               InterviewItemComp({ item })
             }
             .onClick(()=>{
-              router.pushUrl({url:"pages/InterViewDetailPage"})
+              auth.checkAuth({url:"pages/InterViewDetailPage",params:{stem:item.stem}})
             })
           })
           ListItem(){

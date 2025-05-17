@@ -1,11 +1,20 @@
+import { ParticleModifier, router } from '@kit.ArkUI';
+import { StartupConfigEntry } from '@kit.AbilityKit';
+
 @Entry
 @Component
 struct InterViewDetailPage {
   @State message: string = '面经详情页';
-
+  @State stem:string = ''
+  aboutToAppear(): void {
+    const params = router.getParams() as Record<string, string> ||{}
+    if(params.stem) {
+      this.stem = params.stem.toString()
+    }
+  }
   build() {
     RelativeContainer() {
-      Text(this.message)
+      Text(this.stem)
         .id('InterViewDetailPageHelloWorld')
         .fontSize($r('app.float.page_text_font_size'))
         .fontWeight(FontWeight.Bold)

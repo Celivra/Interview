@@ -65,7 +65,15 @@ struct LoginPage {
         password:this.password
       }))
       auth.setUser(data)
-      router.back()
+
+      const params = router.getParams() as Record<string, string> || {}
+      if(params.returnUrl){
+        router.replaceUrl({url:params.returnUrl, params:params})
+      }else{
+        router.back()
+      }
+
+
       this.loading = false
     }catch (e){
       this.loading = false
