@@ -1,10 +1,15 @@
-import { InterviewItem, InterviewListParams, PageData } from '../../models/Index'
+import { InterviewItem, InterviewListParams, PageData } from '../../models/index'
 import { InterviewItemComp } from './InterViewListItemComp'
 import { http } from '@kit.NetworkKit'
 import { promptAction, router } from '@kit.ArkUI'
 import { httpClient } from '../../utils/HttpClient'
 import { auth } from '../../utils/Auth'
+import { it } from '@ohos/hypium'
 
+interface InterView{
+  stem:string
+  id:string
+}
 @Component
 export struct InterviewListComp {
   @State isRefreshing: boolean = false
@@ -15,6 +20,10 @@ export struct InterviewListComp {
     sort:30,
     page:1,
     questionBankType:9
+  }
+  interview:InterView = {
+    stem:'',
+    id:''
   }
   @State list: InterviewItem[] = [ ]
   build() {
@@ -44,7 +53,11 @@ export struct InterviewListComp {
               InterviewItemComp({ item })
             }
             .onClick(()=>{
-              auth.checkAuth({url:"pages/InterViewDetailPage",params:new Object({stem:item.stem})})
+              this.interview = {
+                stem:item.stem,
+                id:item.id
+              }
+              auth.checkAuth({url:"pages/InterViewDetailPage",params:this.interview})
             })
           })
           ListItem(){

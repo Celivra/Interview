@@ -1,4 +1,4 @@
-import { InterviewItem } from '../../models/Index'
+import { InterviewItem } from '../../models/index'
 
 @Component
 export  struct InterviewItemComp {

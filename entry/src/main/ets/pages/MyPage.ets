@@ -1,7 +1,7 @@
 import { faceDetector } from "@kit.CoreVisionKit"
 import { promptAction, router } from "@kit.ArkUI"
 import { auth, UserStoreKey } from "../utils/Auth"
-import { User } from "../models/Index"
+import { User } from "../models/index"
 
 interface NavItem{
   icon:Resource,

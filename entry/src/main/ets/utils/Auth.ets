@@ -1,4 +1,4 @@
-import { User } from "../models/Index"
+import { User } from "../models/index"
 import { router } from "@kit.ArkUI"
 
 export const UserStoreKey = 'my-user'

@@ -1,7 +1,7 @@
 import { promptAction, router } from '@kit.ArkUI'
 import { http } from '@kit.NetworkKit'
 import { NavComp } from '../component/NavComp'
-import { Res, User } from '../models/Index'
+import { Res, User } from '../models/index'
 import { auth } from '../utils/Auth'
 import { httpClient, HttpClient } from '../utils/HttpClient'
 
