@@ -13,9 +13,17 @@ class Auth {
     AppStorage.setOrCreate<User>(UserStoreKey, user)
   }
 
-  checkAuth(options:router.RouterOptions){
+  checkAuth(options:router.RouterOptions | Function){
     const user = this.getUser()
-    if(user.token){
+    if(typeof options === 'function'){
+      if(user.token){
+        options()
+      }
+      else{
+        router.pushUrl({url:'pages/LoginPage'})
+      }
+    }
+    else if(user.token){
       router.pushUrl(options)
     }else{
       const params = options.params as Record<string, string> || {}

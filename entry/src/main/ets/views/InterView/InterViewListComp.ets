@@ -44,7 +44,7 @@ export struct InterviewListComp {
               InterviewItemComp({ item })
             }
             .onClick(()=>{
-              auth.checkAuth({url:"pages/InterViewDetailPage",params:{stem:item.stem}})
+              auth.checkAuth({url:"pages/InterViewDetailPage",params:new Object({stem:item.stem})})
             })
           })
           ListItem(){

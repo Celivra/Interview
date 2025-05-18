@@ -1,5 +1,5 @@
 import { faceDetector } from "@kit.CoreVisionKit"
-import { router } from "@kit.ArkUI"
+import { promptAction, router } from "@kit.ArkUI"
 import { auth, UserStoreKey } from "../utils/Auth"
 import { User } from "../models/Index"
 
@@ -113,6 +113,15 @@ export struct MyPage{
         .margin({top:15})
         .onClick(()=>{
           auth.setUser({} as User)
+        })
+      Text('签到')
+        .fontColor($r('app.color.common_main_color'))
+        .opacity(0.5)
+        .margin({top:15})
+        .onClick(()=>{
+          auth.checkAuth(()=>{
+            promptAction.showToast({message:'签到成功'})
+          })
         })
     }
     .width('100%')
