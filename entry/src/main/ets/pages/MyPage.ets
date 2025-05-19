@@ -114,6 +114,13 @@ export struct MyPage{
         .onClick(()=>{
           auth.setUser({} as User)
         })
+      Text('模拟失效')
+        .fontColor($r('app.color.common_main_color'))
+        .opacity(0.5)
+        .onClick(() => {
+          this.user.token = 'xxx'
+          auth.setUser(this.user)
+        })
       Text('签到')
         .fontColor($r('app.color.common_main_color'))
         .opacity(0.5)
