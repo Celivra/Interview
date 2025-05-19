@@ -2,42 +2,75 @@ import { ParticleModifier, promptAction, router } from '@kit.ArkUI';
 import { StartupConfigEntry } from '@kit.AbilityKit';
 import { httpClient, HttpClient } from '../utils/HttpClient';
 import { http } from '@kit.NetworkKit';
+import { InterviewItem } from '../models';
+import { NavComp } from '../component/NavComp';
+import { TagComp } from '../component/TagComp';
 
 @Entry
 @Component
-struct InterViewDetailPage {
-  @State message: string = '面经详情页';
-  @State stem:string = ''
-  @State myId:string = ''
+struct InterviewDetailPage {
+  @State detail: InterviewItem = {} as InterviewItem
+
   aboutToAppear(): void {
-    const params = router.getParams() as Record<string, string> ||{}
-    if(params.stem) {
-      this.stem = params.stem.toString()
-    }
-    if(params.id){
-      this.myId = params.id
-    }
-    httpClient.request<Object>(`question/${this.myId}`, http.RequestMethod.GET)
-      .then(()=>{
-        promptAction.showToast({message:'success'})
-      })
-      .catch(()=>{
-        promptAction.showToast({message:'fail'})
-      })
+    const params = router.getParams() as InterviewItem
+    this.detail = params
   }
+
+  @Builder
+  HeaderBuilder() {
+    Column({ space: 15 }) {
+      Text(this.detail.stem)
+        .fontWeight(600)
+        .fontSize(18)
+        .padding({ left: 15, right: 15 })
+        .width('100%')
+
+      Row({ space: 4 }) {
+        Image(this.detail.creatorAvatar)
+          .width(36)
+          .aspectRatio(1)
+        Column({ space: 4 }) {
+          Text(this.detail.creatorName)
+            .fontSize(14)
+          Text() {
+            Span('浏览 ' + this.detail.views)
+            Span(' · ')
+            Span('点赞 ' + this.detail.likeCount)
+            Span(' · ')
+            Span(this.detail.createdAt)
+          }
+          .width('100%')
+          .fontSize(12)
+          .fontColor('#bdbdbd')
+        }
+        .alignItems(HorizontalAlign.Start)
+        .layoutWeight(1)
+      }
+      .padding({ left: 15, right: 15 })
+
+      Row({ space: 4 }) {
+        ForEach(['大厂', '面经'], (tag: string) => {
+          TagComp({ tag })
+        })
+      }
+      .width('100%')
+      .padding({ left: 15, right: 15 })
+    }
+  }
+
   build() {
-    RelativeContainer() {
-      Text(this.stem)
-        .id('InterViewDetailPageHelloWorld')
-        .fontSize($r('app.float.page_text_font_size'))
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
-        .onClick(() => {
-          this.message = 'Welcome';
-        })
+    Column() {
+      NavComp()
+      List() {
+        ListItem() {
+          this.HeaderBuilder()
+        }
+      }
+      .layoutWeight(1)
+      .height('100%')
+      .width('100%')
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.None)
     }
     .height('100%')
     .width('100%')

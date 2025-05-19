@@ -1,7 +1,7 @@
 import { InterviewItem } from '../../models/index'
 
 @Component
-export  struct InterviewItemComp {
+export  struct InterviewListItemComp {
   item: InterviewItem = {} as InterviewItem
   build() {
     Column({ space: 12 }) {

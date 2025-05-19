@@ -1,5 +1,5 @@
 import { InterviewItem, InterviewListParams, PageData } from '../../models/index'
-import { InterviewItemComp } from './InterViewListItemComp'
+import { InterviewListItemComp } from './InterViewListItemComp'
 import { http } from '@kit.NetworkKit'
 import { promptAction, router } from '@kit.ArkUI'
 import { httpClient } from '../../utils/HttpClient'
@@ -20,10 +20,6 @@ export struct InterviewListComp {
     sort:30,
     page:1,
     questionBankType:9
-  }
-  interview:InterView = {
-    stem:'',
-    id:''
   }
   @State list: InterviewItem[] = [ ]
   build() {
@@ -50,14 +46,10 @@ export struct InterviewListComp {
         List() {
           ForEach(this.list, (item: InterviewItem) => {
             ListItem() {
-              InterviewItemComp({ item })
+              InterviewListItemComp({ item })
             }
             .onClick(()=>{
-              this.interview = {
-                stem:item.stem,
-                id:item.id
-              }
-              auth.checkAuth({url:"pages/InterViewDetailPage",params:this.interview})
+              auth.checkAuth({url:"pages/InterViewDetailPage",params:item})
             })
           })
           ListItem(){
