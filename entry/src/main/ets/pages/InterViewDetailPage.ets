@@ -5,6 +5,7 @@ import { http } from '@kit.NetworkKit';
 import { InterviewItem } from '../models';
 import { NavComp } from '../component/NavComp';
 import { TagComp } from '../component/TagComp';
+import { webview } from '@kit.ArkWeb';
 
 @Entry
 @Component
@@ -58,12 +59,16 @@ struct InterviewDetailPage {
     }
   }
 
+  webViewController = new webview.WebviewController
   build() {
     Column() {
       NavComp()
       List() {
         ListItem() {
           this.HeaderBuilder()
+        }
+        ListItem(){
+          Web({src:$rawfile('test.html'),controller:this.webViewController})
         }
       }
       .layoutWeight(1)
