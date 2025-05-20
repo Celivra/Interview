@@ -1,4 +1,4 @@
-import { App, window } from '@kit.ArkUI'
+import { window } from '@kit.ArkUI'
 
 class FullScreen{
   async enable(){

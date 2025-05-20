@@ -1,15 +1,10 @@
 import { InterviewItem, InterviewListParams, PageData } from '../../models/index'
 import { InterviewListItemComp } from './InterViewListItemComp'
 import { http } from '@kit.NetworkKit'
-import { promptAction, router } from '@kit.ArkUI'
+import { promptAction } from '@kit.ArkUI'
 import { httpClient } from '../../utils/HttpClient'
 import { auth } from '../../utils/Auth'
-import { it } from '@ohos/hypium'
 
-interface InterView{
-  stem:string
-  id:string
-}
 @Component
 export struct InterviewListComp {
   @State isRefreshing: boolean = false
@@ -98,15 +93,6 @@ export struct InterviewListComp {
   async refreshData() {
     this.params.page = 1
     this.isRefreshing = true
-    // const req = http.createHttp()
-    // const paramKeys: string[] = Object.keys(this.params)
-    // const paramValues: (number | string | boolean)[] = Object.values(this.params)
-    // const paramsStr = paramKeys.map((key,i) => `${key}=${paramValues[i]}`).join('&')
-    // const url = `https://api-harmony-teach.itheima.net/hm/question/list?${paramsStr}`
-    // const res = await req.request(url, {
-    //   expectDataType: http.HttpDataType.OBJECT
-    // })
-    // const result = res.result as Res<PageData<InterviewItem>>
     const data = await httpClient.request<PageData<InterviewItem>>('question/list', http.RequestMethod.GET, this.params)
     this.list = data.rows
     this.isRefreshing = false
@@ -122,16 +108,6 @@ export struct InterviewListComp {
 
   async LoadData () {
     this.isLoading = true
-    // const req = http.createHttp()
-    // const paramKeys: string[] = Object.keys(this.params)
-    // const paramValues: (number | string | boolean)[] = Object.values(this.params)
-    // const paramsStr = paramKeys.map((key,i) => `${key}=${paramValues[i]}`).join('&')
-    // const url = `https://api-harmony-teach.itheima.net/hm/question/list?${paramsStr}`
-    // const res = await req.request(url, {
-    //   expectDataType: http.HttpDataType.OBJECT
-    // })
-    // const result = res.result as Res<PageData<InterviewItem>>
-
     const data = await httpClient.request<PageData<InterviewItem>>('question/list', http.RequestMethod.GET, this.params)
     this.list.push(...data.rows)
     this.isLoading = false
