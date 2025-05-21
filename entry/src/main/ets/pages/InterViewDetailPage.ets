@@ -11,6 +11,7 @@ import { http } from '@kit.NetworkKit';
 struct InterviewDetailPage {
   @State detail: InterviewItem = {} as InterviewItem
   @State isLoading:boolean = true
+  @StorageProp('bottomHeight') bottomHeight: number = 0
   aboutToAppear(): void {
     const params = router.getParams() as InterviewItem
     this.detail = params
@@ -91,8 +92,41 @@ struct InterviewDetailPage {
       .width('100%')
       .scrollBar(BarState.Off)
       .edgeEffect(EdgeEffect.None)
+      this.ToolsBuilder()
     }
     .height('100%')
     .width('100%')
+  }
+  @Builder
+  ToolsBuilder() {
+    Row() {
+      ToolsItemComp({ icon: $r('app.media.ic_public_share'), text: '分享' })
+      ToolsItemComp({ icon: $r('app.media.ic_public_like'), text: '点赞' })
+      ToolsItemComp({ icon: $r('app.media.ic_public_collect'), text: '收藏' })
+      ToolsItemComp({ icon: $r('app.media.ic_public_sound'), text: '朗读' })
+    }
+    .justifyContent(FlexAlign.SpaceAround)
+    .height(50 + this.bottomHeight)
+    .padding({ left: 15, right: 15, bottom: this.bottomHeight })
+    .width('100%')
+    .border({ width: { top: 0.5 }, color: $r('app.color.common_gray_border') })
+  }
+}
+
+@Component
+struct ToolsItemComp {
+  @Prop @Require icon: ResourceStr
+  @Prop @Require text: string
+  @Prop isActive: boolean = false
+  build() {
+    Row({ space: 2 }) {
+      Image(this.icon)
+        .width(20)
+        .aspectRatio(1)
+        .fillColor(this.isActive ? $r('app.color.common_main_color') : $r('app.color.common_gray_02'))
+      Text(this.text)
+        .fontColor(this.isActive ? $r('app.color.common_main_color') : $r('app.color.common_gray_02'))
+        .fontSize(14)
+    }
   }
 }
