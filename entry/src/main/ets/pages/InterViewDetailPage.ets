@@ -3,15 +3,27 @@ import { InterviewItem } from '../models';
 import { NavComp } from '../component/NavComp';
 import { TagComp } from '../component/TagComp';
 import { webview } from '@kit.ArkWeb';
+import { httpClient } from '../utils/HttpClient';
+import { http } from '@kit.NetworkKit';
 
 @Entry
 @Component
 struct InterviewDetailPage {
   @State detail: InterviewItem = {} as InterviewItem
-
+  @State isLoading:boolean = true
   aboutToAppear(): void {
     const params = router.getParams() as InterviewItem
     this.detail = params
+    if(params){
+      this.detail = params
+      this.getData()
+    }
+  }
+  async getData(){
+    const data = await httpClient.request<InterviewItem>(`question/${this.detail.id}`,http.RequestMethod.GET)
+    this.detail = data
+    this.isLoading = false
+    this.webViewController.runJavaScript(`writeHtml(\` ${this.detail.content} \`)`)
   }
 
   @Builder
@@ -65,7 +77,13 @@ struct InterviewDetailPage {
           this.HeaderBuilder()
         }
         ListItem(){
-          Web({src:$rawfile('test.html'),controller:this.webViewController})
+          Web({src:$rawfile('interview.html'),controller:this.webViewController})
+            .onPageEnd(()=>{
+              if(!this.isLoading){
+                this.webViewController.runJavaScript(`writeHtml(\` ${this.detail.content} \`)`)
+
+              }
+            })
         }
       }
       .layoutWeight(1)
