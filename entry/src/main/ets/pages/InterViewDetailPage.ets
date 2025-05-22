@@ -5,6 +5,7 @@ import { TagComp } from '../component/TagComp';
 import { webview } from '@kit.ArkWeb';
 import { httpClient } from '../utils/HttpClient';
 import { http } from '@kit.NetworkKit';
+import { textToSpeech } from '@kit.CoreSpeechKit';
 
 @Entry
 @Component
@@ -12,6 +13,27 @@ struct InterviewDetailPage {
   @State detail: InterviewItem = {} as InterviewItem
   @State isLoading:boolean = true
   @StorageProp('bottomHeight') bottomHeight: number = 0
+  ttsEngine?:textToSpeech.TextToSpeechEngine
+  async start () {
+    // 1. 创建tts引擎
+    const engineParams: textToSpeech.CreateEngineParams = {
+      language: 'zh-CN',
+      online: 1,
+      person: 0
+    }
+    this.ttsEngine = await textToSpeech.createEngine(engineParams)
+    // 2. 开始播报
+    const speakParams:  textToSpeech.SpeakParams = {
+      requestId: this.detail.id
+    }
+    this.ttsEngine.speak(this.detail.content.replace(/<[^>]*>/g, ''), speakParams)
+  }
+  aboutToDisappear(): void {
+    if (this.ttsEngine) {
+      this.ttsEngine.stop()
+      this.ttsEngine.shutdown()
+    }
+  }
   aboutToAppear(): void {
     const params = router.getParams() as InterviewItem
     this.detail = params
@@ -130,6 +152,11 @@ struct InterviewDetailPage {
           this.opt(2,this.detail.collectFlag === 1?0:1)
         })
       ToolsItemComp({ icon: $r('app.media.ic_public_sound'), text: '朗读' })
+        .onClick(() => {
+          if (!this.ttsEngine?.isBusy()) {
+            this.start()
+          }
+        })
     }
     .justifyContent(FlexAlign.SpaceAround)
     .height(50 + this.bottomHeight)
