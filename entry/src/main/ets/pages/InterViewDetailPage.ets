@@ -1,4 +1,4 @@
-import { router } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 import { InterviewItem } from '../models';
 import { NavComp } from '../component/NavComp';
 import { TagComp } from '../component/TagComp';
@@ -97,12 +97,38 @@ struct InterviewDetailPage {
     .height('100%')
     .width('100%')
   }
+  async opt(optType: 1 | 2, flag: 0 | 1) {
+    await httpClient.request<Object>(
+      flag === 1 ? 'question/opt' : 'question/unOpt',
+      http.RequestMethod.POST,
+      new Object({
+        id: this.detail.id,
+        type : 1,
+        optType
+      })
+    )
+    if (optType === 1) {
+      this.detail.likeFlag = flag
+      this.detail.likeCount += flag === 1 ? 1 : -1
+      promptAction.showToast({ message: flag ? '点赞成功' : '取消点赞' })
+    }
+    if (optType === 2) {
+      this.detail.collectFlag = flag
+      promptAction.showToast({ message: flag ? '收藏成功' : '取消收藏' })
+    }
+  }
   @Builder
   ToolsBuilder() {
     Row() {
       ToolsItemComp({ icon: $r('app.media.ic_public_share'), text: '分享' })
-      ToolsItemComp({ icon: $r('app.media.ic_public_like'), text: '点赞' })
-      ToolsItemComp({ icon: $r('app.media.ic_public_collect'), text: '收藏' })
+      ToolsItemComp({ icon: $r('app.media.ic_public_like'), text: '点赞', isActive:this.detail.likeFlag === 1})
+        .onClick(()=>{
+          this.opt(1,this.detail.likeFlag === 1?0:1)
+        })
+      ToolsItemComp({ icon: $r('app.media.ic_public_collect'), text: '收藏',isActive:this.detail.collectFlag === 1 })
+        .onClick(()=>{
+          this.opt(2,this.detail.collectFlag === 1?0:1)
+        })
       ToolsItemComp({ icon: $r('app.media.ic_public_sound'), text: '朗读' })
     }
     .justifyContent(FlexAlign.SpaceAround)
