@@ -37,7 +37,7 @@ struct Index {
       name:'我的'
     },
   ]
-  @State activeIndex:number=2
+  @State activeIndex:number=0
   @Builder
   TabBuilder(item:TabItem, i:number){
     Column(){
