@@ -38,6 +38,22 @@ export struct HomePage{
     .width('100%')
     .padding({ left: 15, right: 15, top: this.topHeight })
   }
+  @Builder
+  ListView(){
+    Row(){
+      Text('Component Context')
+        .fontSize(14)
+    }
+    .width("90%")
+    .height(70)
+    .border({
+      width:1,
+      color:0xbbbbbb,
+      radius:15
+    })
+    .justifyContent(FlexAlign.Center)
+    .margin({bottom:10})
+  }
   build() {
     Column(){
       this.HeaderView()
@@ -53,6 +69,12 @@ export struct HomePage{
         radius:15
       })
       .justifyContent(FlexAlign.Center)
+      .margin({bottom:40})
+
+      this.ListView()
+      this.ListView()
+      this.ListView()
+      this.ListView()
 
     }
     .width('100%')
