@@ -32,7 +32,6 @@ export struct HomePage{
           width:1,
           color:0xbbbbbb,
           radius:15
-
         })
     }
     .height(64 + this.topHeight)
@@ -42,7 +41,18 @@ export struct HomePage{
   build() {
     Column(){
       this.HeaderView()
-
+      Row(){
+        Text('Banner')
+          .fontSize(24)
+      }
+      .width("90%")
+      .height(200)
+      .border({
+        width:1,
+        color:0xbbbbbb,
+        radius:15
+      })
+      .justifyContent(FlexAlign.Center)
 
     }
     .width('100%')
