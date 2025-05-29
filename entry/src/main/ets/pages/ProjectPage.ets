@@ -2,7 +2,6 @@ interface project{
   ProjectName:string,
   ProjectContent:string;
 }
-
 @Component
 export struct ProjectPage{
   projectList:project[] = [
@@ -33,7 +32,7 @@ export struct ProjectPage{
   ]
   @StorageProp('topHeight') topHeight: number = 0
   @Builder
-  projectCard(name:string, content:string, h:number){
+  projectCard(name:string, content:string){
     Row(){
       Column(){
         Text(name)
@@ -44,7 +43,7 @@ export struct ProjectPage{
       }
       .justifyContent(FlexAlign.Center)
       .width('50%')
-      .height((160*h))
+      .height(320)
       .border({
         width:1,
         color:0xbbbbbb,
@@ -53,7 +52,6 @@ export struct ProjectPage{
     }
   }
   i:number[] = [1,2]
-  flag:boolean = true;
   build() {
     List({ space: 5 }) {
       ListItem() { // 必须用 ListItem 包裹
@@ -65,13 +63,18 @@ export struct ProjectPage{
                 this.projectList.filter((_, index) =>
                 i === 1 ? index % 2 === 0 : index % 2 === 1
                 ),
-                (item: project) => {
-                  this.projectCard(item.ProjectName, item.ProjectContent, ((i + this.projectList.indexOf(item)) % 2 + 1))
+                (item: project, index) => {
+                  this.projectCard(item.ProjectName, item.ProjectContent)
                 }
               )
             }
           })
         }
+        .border({
+          width:1,
+          color:0xff0000,
+          radius:15
+        })
         .width('100%') // Row 占满宽度
       }
     }
