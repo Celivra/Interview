@@ -8,14 +8,10 @@ import { httpClient } from '../utils/HttpClient'
 @Entry
 @Component
 struct LoginPage {
-  @StorageProp('topHeight')
-  topHeight: number = 0
-  @State
-  username: string = 'hmheima'
-  @State
-  password: string = 'Hmheima%123'
-  @State
-  loading: boolean = false
+  @StorageProp('topHeight') topHeight: number = 0
+  @State username: string = 'hmheima'
+  @State password: string = 'Hmheima%123'
+  @State loading: boolean = false
 
 
   async login() {
@@ -54,9 +50,7 @@ struct LoginPage {
 
   build() {
     Column() {
-
       NavComp()
-
       Column() {
         Image($r('app.media.icon'))
           .width(120)

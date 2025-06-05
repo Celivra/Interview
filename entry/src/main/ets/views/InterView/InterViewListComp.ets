@@ -72,12 +72,7 @@ export struct InterviewListComp {
         })
         .width('100%')
         .height('100%')
-        .divider({
-          strokeWidth: 0.5,
-          color: $r('app.color.common_gray_border'),
-          startMargin: 15,
-          endMargin: 15
-        })
+        .divider({ strokeWidth: 0.5, color: $r('app.color.common_gray_border'), startMargin: 15, endMargin: 15 })
         .scrollBar(BarState.Off)
         .edgeEffect(EdgeEffect.None)
       }
@@ -111,10 +106,7 @@ export struct InterviewListComp {
     const data = await httpClient.request<PageData<InterviewItem>>('question/list', http.RequestMethod.GET, this.params)
     this.list.push(...data.rows)
     this.isLoading = false
-    if (this.params.page >= data.pageTotal) {
-      this.isFinished = true
-    } else {
-      this.params.page ++
-    }
+    if (this.params.page >= data.pageTotal) this.isFinished = true
+    else this.params.page ++
   }
 }

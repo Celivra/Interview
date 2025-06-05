@@ -44,11 +44,7 @@ export struct ProjectPage{
       .justifyContent(FlexAlign.Center)
       .width('50%')
       .height(320)
-      .border({
-        width:1,
-        color:0xbbbbbb,
-        radius:15
-      })
+      .border({ width:1, color:0xbbbbbb, radius:15 })
     }
   }
   i:number[] = [1,2]
@@ -61,8 +57,7 @@ export struct ProjectPage{
               // 筛选奇数或偶数索引的项
               ForEach(
                 this.projectList.filter((_, index) =>
-                i === 1 ? index % 2 === 0 : index % 2 === 1
-                ),
+                i === 1 ? index % 2 === 0 : index % 2 === 1 ),
                 (item: project, index) => {
                   this.projectCard(item.ProjectName, item.ProjectContent)
                 }
@@ -70,11 +65,7 @@ export struct ProjectPage{
             }
           })
         }
-        .border({
-          width:1,
-          color:0xff0000,
-          radius:15
-        })
+        .border({ width:1, color:0xff0000, radius:15 })
         .width('100%') // Row 占满宽度
       }
     }

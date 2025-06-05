@@ -55,23 +55,15 @@ struct Index {
         ForEach(this.tabList, (item:TabItem, i)=>{
 
           TabContent(){
-            if(i === 0){
-              HomePage();
-            }else if(i === 1){
-              ProjectPage();
-            }else if(i === 2){
-              InterviewPage();
-            }else{
-              MyPage();
-            }
+            if(i === 0) HomePage();
+            else if(i === 1) ProjectPage();
+            else if(i === 2) InterviewPage();
+            else MyPage();
           }
           .tabBar(this.TabBuilder(item, i))
-
         })
       }
-      .onTabBarClick((i=>{
-        this.activeIndex = i;
-      }))
+      .onTabBarClick((i=>{ this.activeIndex = i; }))
       .divider({strokeWidth:1, color:$r('app.color.common_gray_border')})
       .padding({bottom:this.bottomHeight})
     }
