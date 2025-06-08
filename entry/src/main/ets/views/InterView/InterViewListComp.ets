@@ -37,7 +37,7 @@ export struct InterviewListComp {
       .height(48)
       .width('100%')
       .border({ width: { bottom: 0.5 }, color: $r('app.color.common_gray_border') })
-      Refresh({ refreshing: $$this.isRefreshing }){
+      Refresh({ refreshing: this.isRefreshing }){
         List() {
           ForEach(this.list, (item: InterviewItem) => {
             ListItem() {

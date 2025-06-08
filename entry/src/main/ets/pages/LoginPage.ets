@@ -39,8 +39,6 @@ struct LoginPage {
       }else{
         router.back()
       }
-
-
       this.loading = false
     }catch (e){
       this.loading = false

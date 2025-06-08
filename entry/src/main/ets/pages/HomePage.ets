@@ -1,13 +1,16 @@
+import { User } from "../models"
+import { UserStoreKey } from "../utils/Auth"
+
 @Component
 export struct HomePage {
+  @StorageProp(UserStoreKey) user: User= {} as User
   @StorageProp('topHeight') topHeight: number = 0
-
   @Builder
   HeaderView() {
     Row() {
-      Column() {}
+      Image(this.user.avatar || $r("app.media.ic_mine_avatar"))
       .width(40) .height(40)
-      .backgroundColor("#E0E0E0") .borderRadius(20)
+      .borderRadius(20)
       .margin({ left: 16, right: 12 })
       Row({ space: 8 }) {
         Image($r('app.media.ic_common_search'))
